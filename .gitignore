@@ -1,0 +1,17 @@
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Android Studio
+.idea/
+*.iml
+
+# Gradle
+.gradle
+build/
+
+# MacOS X DS_Store file
+.DS_Store
+
+# Google Maps API key files
+/sample/src/debug/res/values/google_maps_api.xml
+/sample/src/release/res/values/google_maps_api.xml

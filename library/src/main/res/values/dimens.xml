@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cluster_stroke_width">1dp</dimen>
+    <dimen name="cluster_text_size">14sp</dimen>
+    <dimen name="cluster_icon_min_size">32dp</dimen>
+    <dimen name="cluster_icon_padding">8dp</dimen>
+</resources>

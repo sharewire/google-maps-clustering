@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="cluster_background">#E64A3C</color>
+    <color name="cluster_text">#FFFFFF</color>
+    <color name="cluster_stroke">#FFFFFF</color>
+</resources>
