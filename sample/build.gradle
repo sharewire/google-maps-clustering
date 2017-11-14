@@ -18,7 +18,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    buildToolsVersion '26.0.2'
+
+    lintOptions {
+        disable 'GoogleAppIndexingWarning' // The application doesn't have to be indexable by Google Search.
+    }
 }
 
 dependencies {

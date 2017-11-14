@@ -9,11 +9,11 @@ class QuadTreeNode<T extends QuadTreePoint> {
 
     private final QuadTreeRect bounds;
     private final List<T> points;
+    private final int bucketSize;
     private QuadTreeNode<T> northWest;
     private QuadTreeNode<T> northEast;
     private QuadTreeNode<T> southWest;
     private QuadTreeNode<T> southEast;
-    private int bucketSize;
 
     QuadTreeNode(double north, double west, double south, double east, int bucketSize) {
         this.bounds = new QuadTreeRect(north, west, south, east);
