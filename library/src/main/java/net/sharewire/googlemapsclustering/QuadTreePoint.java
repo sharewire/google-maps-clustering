@@ -1,6 +1,6 @@
 package net.sharewire.googlemapsclustering;
 
-public interface QuadTreePoint {
+interface QuadTreePoint {
     double getLatitude();
 
     double getLongitude();

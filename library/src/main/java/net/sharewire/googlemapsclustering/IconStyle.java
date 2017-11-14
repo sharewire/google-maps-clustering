@@ -6,6 +6,8 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
+import static net.sharewire.googlemapsclustering.Preconditions.checkNotNull;
+
 public class IconStyle {
 
     private final int clusterBackgroundColor;
@@ -62,6 +64,7 @@ public class IconStyle {
         private int clusterIconResId;
 
         public Builder(@NonNull Context context) {
+            checkNotNull(context);
             clusterBackgroundColor = ContextCompat.getColor(
                     context, R.color.cluster_background);
             clusterTextColor = ContextCompat.getColor(

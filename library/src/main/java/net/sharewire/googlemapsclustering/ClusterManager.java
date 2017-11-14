@@ -3,12 +3,15 @@ package net.sharewire.googlemapsclustering;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLngBounds;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static net.sharewire.googlemapsclustering.Preconditions.checkNotNull;
 
 public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCameraIdleListener {
 
@@ -31,20 +34,23 @@ public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCamera
     }
 
     public ClusterManager(@NonNull Context context, @NonNull GoogleMap googleMap) {
-        mGoogleMap = googleMap;
+        checkNotNull(context);
+        mGoogleMap = checkNotNull(googleMap);
         mRenderer = new ClusterRenderer<>(context, googleMap);
         mQuadTree = new QuadTree<>(QUAD_TREE_BUCKET_CAPACITY);
     }
 
     public void setIconGenerator(@NonNull IconGenerator<T> iconGenerator) {
+        checkNotNull(iconGenerator);
         mRenderer.setIconGenerator(iconGenerator);
     }
 
-    public void setCallbacks(@NonNull Callbacks<T> callbacks) {
+    public void setCallbacks(@Nullable Callbacks<T> callbacks) {
         mRenderer.setCallbacks(callbacks);
     }
 
     public void setItems(@NonNull List<T> clusterItems) {
+        checkNotNull(clusterItems);
         buildQuadTree(clusterItems);
     }
 

@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
+import static net.sharewire.googlemapsclustering.Preconditions.checkNotNull;
+
 public class DefaultIconGenerator<T extends ClusterItem> implements IconGenerator<T> {
 
     private static final int[] CLUSTER_ICON_BUCKETS = {10, 20, 50, 100, 500, 1000, 5000, 10000, 20000};
@@ -29,12 +31,12 @@ public class DefaultIconGenerator<T extends ClusterItem> implements IconGenerato
     private BitmapDescriptor mClusterItemIcon;
 
     public DefaultIconGenerator(@NonNull Context context) {
-        mContext = context;
+        mContext = checkNotNull(context);
         setIconStyle(createDefaultIconStyle());
     }
 
     public void setIconStyle(@NonNull IconStyle iconStyle) {
-        mIconStyle = iconStyle;
+        mIconStyle = checkNotNull(iconStyle);
     }
 
     @NonNull

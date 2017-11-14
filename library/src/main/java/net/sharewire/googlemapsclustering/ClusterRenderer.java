@@ -50,17 +50,19 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
             //noinspection ConstantConditions
             List<T> clusterItems = cluster.getItems();
 
-            if (clusterItems.size() > 1) {
-                return mCallbacks.onClusterClick(cluster);
-            } else {
-                return mCallbacks.onClusterItemClick(clusterItems.get(0));
+            if (mCallbacks != null) {
+                if (clusterItems.size() > 1) {
+                    return mCallbacks.onClusterClick(cluster);
+                } else {
+                    return mCallbacks.onClusterItemClick(clusterItems.get(0));
+                }
             }
-        } else {
-            return false;
         }
+
+        return false;
     }
 
-    void setCallbacks(@NonNull ClusterManager.Callbacks<T> listener) {
+    void setCallbacks(@Nullable ClusterManager.Callbacks<T> listener) {
         mCallbacks = listener;
     }
 
