@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static net.sharewire.googlemapsclustering.Preconditions.checkNotNull;
+
 class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickListener {
 
     private static final int BACKGROUND_MARKER_Z_INDEX = 0;
@@ -150,7 +152,7 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
             clusterIcon = mIconGenerator.getClusterItemIcon(clusterItems.get(0));
         }
 
-        return clusterIcon;
+        return checkNotNull(clusterIcon);
     }
 
     @Nullable

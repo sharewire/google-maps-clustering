@@ -13,6 +13,13 @@ import java.util.List;
 
 import static net.sharewire.googlemapsclustering.Preconditions.checkNotNull;
 
+/**
+ * Groups multiple items on a map into clusters based on the current zoom level.
+ * Clustering occurs when the map becomes idle, so an instance of this class
+ * must be set as a camera idle listener using {@link GoogleMap#setOnCameraIdleListener}.
+ *
+ * @param <T> the type of an item to be clustered
+ */
 public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCameraIdleListener {
 
     private static final int QUAD_TREE_BUCKET_CAPACITY = 4;
@@ -27,12 +34,40 @@ public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCamera
 
     private AsyncTask mClusterTask;
 
+    /**
+     * Defines signatures for methods that are called when a cluster or a cluster item is clicked.
+     *
+     * @param <T> the type of an item managed by {@link ClusterManager}.
+     */
     public interface Callbacks<T extends ClusterItem> {
+        /**
+         * Called when a marker representing a cluster has been clicked.
+         *
+         * @param cluster the cluster that has been clicked
+         * @return <code>true</code> if the listener has consumed the event (i.e., the default behavior should not occur);
+         * <code>false</code> otherwise (i.e., the default behavior should occur). The default behavior is for the camera
+         * to move to the marker and an info window to appear.
+         */
         boolean onClusterClick(@NonNull Cluster<T> cluster);
 
+        /**
+         * Called when a marker representing a cluster item has been clicked.
+         *
+         * @param clusterItem the cluster item that has been clicked
+         * @return <code>true</code> if the listener has consumed the event (i.e., the default behavior should not occur);
+         * <code>false</code> otherwise (i.e., the default behavior should occur). The default behavior is for the camera
+         * to move to the marker and an info window to appear.
+         */
         boolean onClusterItemClick(@NonNull T clusterItem);
     }
 
+    /**
+     * Creates a new cluster manager using the default icon generator.
+     * To customize marker icons, set a custom icon generator using
+     * {@link ClusterManager#setIconGenerator(IconGenerator)}.
+     *
+     * @param googleMap the map instance where markers will be rendered
+     */
     public ClusterManager(@NonNull Context context, @NonNull GoogleMap googleMap) {
         checkNotNull(context);
         mGoogleMap = checkNotNull(googleMap);
@@ -40,15 +75,31 @@ public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCamera
         mQuadTree = new QuadTree<>(QUAD_TREE_BUCKET_CAPACITY);
     }
 
+    /**
+     * Sets a custom icon generator thus replacing the default one.
+     *
+     * @param iconGenerator the custom icon generator that's used for generating marker icons
+     */
     public void setIconGenerator(@NonNull IconGenerator<T> iconGenerator) {
         checkNotNull(iconGenerator);
         mRenderer.setIconGenerator(iconGenerator);
     }
 
+    /**
+     * Sets a callback that's invoked when a cluster or a cluster item is clicked.
+     *
+     * @param callbacks the callback that's invoked when a cluster or an individual item is clicked.
+     *                  To unset the callback, use <code>null</code>.
+     */
     public void setCallbacks(@Nullable Callbacks<T> callbacks) {
         mRenderer.setCallbacks(callbacks);
     }
 
+    /**
+     * Sets items to be clustered thus replacing the old ones.
+     *
+     * @param clusterItems the items to be clustered
+     */
     public void setItems(@NonNull List<T> clusterItems) {
         checkNotNull(clusterItems);
         buildQuadTree(clusterItems);

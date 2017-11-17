@@ -18,6 +18,11 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
 import static net.sharewire.googlemapsclustering.Preconditions.checkNotNull;
 
+/**
+ * The implementation of {@link IconGenerator} that generates icons with the default style
+ * and caches them for subsequent use. To customize the style of generated icons use
+ * {@link DefaultIconGenerator#setIconStyle(IconStyle)}.
+ */
 public class DefaultIconGenerator<T extends ClusterItem> implements IconGenerator<T> {
 
     private static final int[] CLUSTER_ICON_BUCKETS = {10, 20, 50, 100, 500, 1000, 5000, 10000, 20000};
@@ -26,15 +31,23 @@ public class DefaultIconGenerator<T extends ClusterItem> implements IconGenerato
 
     private IconStyle mIconStyle;
 
-    private final SparseArray<BitmapDescriptor> mClusterIcons = new SparseArray<>();
-
     private BitmapDescriptor mClusterItemIcon;
 
+    private final SparseArray<BitmapDescriptor> mClusterIcons = new SparseArray<>();
+
+    /**
+     * Creates an icon generator with the default icon style.
+     */
     public DefaultIconGenerator(@NonNull Context context) {
         mContext = checkNotNull(context);
         setIconStyle(createDefaultIconStyle());
     }
 
+    /**
+     * Sets a custom icon style used to generate marker icons.
+     *
+     * @param iconStyle the custom icon style used to generate marker icons
+     */
     public void setIconStyle(@NonNull IconStyle iconStyle) {
         mIconStyle = checkNotNull(iconStyle);
     }
