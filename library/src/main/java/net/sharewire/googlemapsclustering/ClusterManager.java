@@ -10,6 +10,8 @@ import com.google.android.gms.maps.model.LatLngBounds;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import static net.sharewire.googlemapsclustering.Preconditions.checkNotNull;
 
@@ -29,6 +31,8 @@ public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCamera
     private final QuadTree<T> mQuadTree;
 
     private final ClusterRenderer<T> mRenderer;
+
+    private final Executor mExecutor = Executors.newSingleThreadExecutor();
 
     private AsyncTask mQuadTreeTask;
 
@@ -115,7 +119,7 @@ public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCamera
             mQuadTreeTask.cancel(true);
         }
 
-        mQuadTreeTask = new QuadTreeTask(clusterItems).execute();
+        mQuadTreeTask = new QuadTreeTask(clusterItems).executeOnExecutor(mExecutor);
     }
 
     private void cluster() {
@@ -124,7 +128,7 @@ public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCamera
         }
 
         mClusterTask = new ClusterTask(mGoogleMap.getProjection().getVisibleRegion().latLngBounds,
-                mGoogleMap.getCameraPosition().zoom).execute();
+                mGoogleMap.getCameraPosition().zoom).executeOnExecutor(mExecutor);
     }
 
     @NonNull
