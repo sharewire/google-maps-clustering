@@ -7,6 +7,7 @@ import android.animation.TypeEvaluator;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -191,6 +192,7 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
                                          final boolean removeAfter) {
         ObjectAnimator objectAnimator = ObjectAnimator.ofObject(marker, "position",
                 new LatLngTypeEvaluator(), targetLocation);
+        objectAnimator.setInterpolator(new FastOutSlowInInterpolator());
         objectAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
