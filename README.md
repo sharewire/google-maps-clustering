@@ -2,6 +2,8 @@
 
 A fast marker clustering library for Google Maps Android API. 
 
+![Demo](art/demo.gif)
+
 ## Integration
 1. Implement `ClusterItem` to represent a marker on the map. The cluster item returns the position of the marker and an optional title or snippet:
 
