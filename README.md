@@ -71,6 +71,6 @@ clusterManager.setCallbacks(new ClusterManager.Callbacks<SampleClusterItem>() {
 5. Populate ClusterManager with items using `ClusterManager.setItems(...)`:
 
 ```java
-List<SampleClusterItem> = generateSampleClusterItems();
+List<SampleClusterItem> clusterItems = generateSampleClusterItems();
 clusterManager.setItems(clusterItems);
 ```
