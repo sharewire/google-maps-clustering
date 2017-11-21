@@ -8,8 +8,8 @@ android {
         applicationId "net.sharewire.googlemapsclustering.sample"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode rootProject.versionCode
+        versionName rootProject.versionName
     }
 
     buildTypes {
@@ -20,7 +20,8 @@ android {
     }
 
     lintOptions {
-        disable 'GoogleAppIndexingWarning' // The application doesn't have to be indexable by Google Search.
+        // The application doesn't have to be indexable by Google Search.
+        disable 'GoogleAppIndexingWarning'
     }
 }
 
