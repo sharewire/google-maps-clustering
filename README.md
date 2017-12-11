@@ -1,8 +1,11 @@
 # Google Maps Clustering for Android
 
-A fast marker clustering library for Google Maps Android API. 
+A fast marker clustering library for Google Maps Android API.
 
 ![Demo](art/demo.gif)
+
+## Motivation
+Why not use [Google Maps Android API Utility Library](https://github.com/googlemaps/android-maps-utils)? Because it's very slow for large amounts of markers.
 
 ## Integration
 1. Implement `ClusterItem` to represent a marker on the map. The cluster item returns the position of the marker and an optional title or snippet:
