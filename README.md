@@ -1,5 +1,7 @@
 # Google Maps Clustering for Android
 
+[ ![Download](https://api.bintray.com/packages/sharewire/maven/google-maps-clustering/images/download.svg) ](https://bintray.com/sharewire/maven/google-maps-clustering/_latestVersion)
+
 A fast marker clustering library for Google Maps Android API.
 
 ![Demo](art/demo.gif)
