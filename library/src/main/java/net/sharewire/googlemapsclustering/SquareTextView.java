@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 class SquareTextView extends TextView {
 
-    SquareTextView(Context context, AttributeSet attrs) {
+    public SquareTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
