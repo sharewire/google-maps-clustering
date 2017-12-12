@@ -7,7 +7,7 @@ A fast marker clustering library for Google Maps Android API.
 ![Demo](art/demo.gif)
 
 ## Motivation
-Why not use [Google Maps Android API Utility Library](https://github.com/googlemaps/android-maps-utils)? Because it's very slow for large amounts of markers.
+Why not use [Google Maps Android API Utility Library](https://github.com/googlemaps/android-maps-utils)? Because it's very slow for large amounts of markers, which causes skipping frames and ANRs. But this library can easily handle thousands of markers (the video above demonstrates the sample application with 20 000 markers running on Nexus 5).
 
 ## Installation
 1. Make sure you have JCenter in your repository list:
