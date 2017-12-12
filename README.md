@@ -9,6 +9,20 @@ A fast marker clustering library for Google Maps Android API.
 ## Motivation
 Why not use [Google Maps Android API Utility Library](https://github.com/googlemaps/android-maps-utils)? Because it's very slow for large amounts of markers.
 
+## Installation
+1. Make sure you have JCenter in your repository list:
+```groovy
+repositories {
+    jcenter()
+}
+```
+2. Add a dependency to your build.gradle:
+```groovy
+dependencies {
+    compile 'net.sharewire:google-maps-clustering:0.1.0-beta'
+}
+```
+
 ## Integration
 1. Implement `ClusterItem` to represent a marker on the map. The cluster item returns the position of the marker and an optional title or snippet:
 
