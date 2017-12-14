@@ -4,6 +4,9 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
+/**
+ * An object representing a cluster of items (markers) on the map.
+ */
 public class Cluster<T extends ClusterItem> {
 
     private final double latitude;
@@ -25,14 +28,29 @@ public class Cluster<T extends ClusterItem> {
         this.east = east;
     }
 
+    /**
+     * The latitude of the cluster.
+     *
+     * @return the latitude of the cluster
+     */
     public double getLatitude() {
         return latitude;
     }
 
+    /**
+     * The longitude of the cluster.
+     *
+     * @return the longitude of the cluster
+     */
     public double getLongitude() {
         return longitude;
     }
 
+    /**
+     * The items contained in the cluster.
+     *
+     * @return the items contained in the cluster
+     */
     @NonNull
     public List<T> getItems() {
         return items;
