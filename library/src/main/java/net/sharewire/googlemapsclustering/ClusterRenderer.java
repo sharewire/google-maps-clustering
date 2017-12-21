@@ -134,7 +134,9 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
                         .icon(markerIcon)
                         .title(markerTitle)
                         .snippet(markerSnippet)
+                        .alpha(0.0F)
                         .zIndex(FOREGROUND_MARKER_Z_INDEX));
+                animateMarkerAppearance(markerToAdd);
             }
             markerToAdd.setTag(clusterToAdd);
 
@@ -202,6 +204,10 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
             }
         });
         objectAnimator.start();
+    }
+
+    private void animateMarkerAppearance(@NonNull Marker marker) {
+        ObjectAnimator.ofFloat(marker, "alpha", 1.0F).start();
     }
 
     private static class LatLngTypeEvaluator implements TypeEvaluator<LatLng> {
