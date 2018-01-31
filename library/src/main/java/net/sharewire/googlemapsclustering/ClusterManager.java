@@ -72,10 +72,14 @@ public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCamera
      *
      * @param googleMap the map instance where markers will be rendered
      */
-    public ClusterManager(@NonNull Context context, @NonNull GoogleMap googleMap) {
+    public ClusterManager(
+            @NonNull Context context,
+            @NonNull GoogleMap googleMap,
+            @NonNull ClusterRenderer<T> clusterRenderer
+    ) {
         checkNotNull(context);
         mGoogleMap = checkNotNull(googleMap);
-        mRenderer = new ClusterRenderer<>(context, googleMap);
+        mRenderer = checkNotNull(clusterRenderer);
         mQuadTree = new QuadTree<>(QUAD_TREE_BUCKET_CAPACITY);
     }
 

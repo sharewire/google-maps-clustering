@@ -22,7 +22,7 @@ import java.util.Map;
 
 import static net.sharewire.googlemapsclustering.Preconditions.checkNotNull;
 
-class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickListener {
+public class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickListener {
 
     private static final int BACKGROUND_MARKER_Z_INDEX = 0;
 
@@ -38,7 +38,7 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
 
     private ClusterManager.Callbacks<T> mCallbacks;
 
-    ClusterRenderer(@NonNull Context context, @NonNull GoogleMap googleMap) {
+    public ClusterRenderer(@NonNull Context context, @NonNull GoogleMap googleMap) {
         mGoogleMap = googleMap;
         mGoogleMap.setOnMarkerClickListener(this);
         mIconGenerator = new DefaultIconGenerator<>(context);
