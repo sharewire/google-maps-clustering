@@ -115,7 +115,8 @@ public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCamera
     }
 
     /**
-     * Sets the minimum cluster-size. Clusters with less will be broken-up into single-item clusters
+     * Sets the minimum size of a cluster. If the cluster size
+     * is less than this value, display individual markers.
      */
     public void setMinClusterSize(int minClusterSize) {
         checkArgument(minClusterSize > 0);
@@ -187,10 +188,12 @@ public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCamera
                         double latitude = totalLatitude / points.size();
                         double longitude = totalLongitude / points.size();
 
-                        clusters.add(new Cluster<>(latitude, longitude, points, north, west, south, east));
+                        clusters.add(new Cluster<>(latitude, longitude,
+                                points, north, west, south, east));
                     } else {
                         for (T point : points) {
-                            clusters.add(new Cluster<>(point.getLatitude(), point.getLongitude(), Collections.singletonList(point), north, west, south, east));
+                            clusters.add(new Cluster<>(point.getLatitude(), point.getLongitude(),
+                                    Collections.singletonList(point), north, west, south, east));
                         }
                     }
                 }
