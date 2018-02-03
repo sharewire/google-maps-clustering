@@ -11,6 +11,12 @@ final class Preconditions {
         return reference;
     }
 
+    static void checkArgument(boolean expression) {
+        if (!expression) {
+            throw new IllegalArgumentException();
+        }
+    }
+
     private Preconditions() {
     }
 }
