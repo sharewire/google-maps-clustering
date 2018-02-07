@@ -166,7 +166,15 @@ public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCamera
         long endX = (long) ((endLongitude + 180.0) / stepLongitude) + 1;
         long endY = (long) ((90.0 - endLatitude) / stepLatitude) + 1;
 
-        for (long tileX = startX; tileX <= endX; tileX++) {
+        // Handling 180/-180 overlap
+        if(startX > endX) {
+            endX += tileCount;
+        }
+
+        for (long x = startX; x <= endX; x++) {
+            // keep tileX in [0; tileCount) range
+            long tileX = x % tileCount;
+
             for (long tileY = startY; tileY <= endY; tileY++) {
                 double north = 90.0 - tileY * stepLatitude;
                 double west = tileX * stepLongitude - 180.0;
