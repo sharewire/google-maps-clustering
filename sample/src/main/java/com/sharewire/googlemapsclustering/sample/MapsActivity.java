@@ -44,15 +44,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
         ClusterManager<SampleClusterItem> clusterManager = new ClusterManager<>(this, googleMap);
-        clusterManager.setCallbacks(new ClusterManager.Callbacks<SampleClusterItem>() {
+        clusterManager.setClusterClickCallback(new ClusterManager.ClusterClickCallback<SampleClusterItem>() {
             @Override
-            public boolean onClusterClick(@NonNull Cluster<SampleClusterItem> cluster) {
+            public boolean onClick(@NonNull Cluster<SampleClusterItem> cluster) {
                 Log.d(TAG, "onClusterClick");
                 return false;
             }
-
+        });
+        clusterManager.setClusterItemClickCallback(new ClusterManager.ClusterItemClickCallback<SampleClusterItem>() {
             @Override
-            public boolean onClusterItemClick(@NonNull SampleClusterItem clusterItem) {
+            public boolean onClick(@NonNull SampleClusterItem clusterItem) {
                 Log.d(TAG, "onClusterItemClick");
                 return false;
             }

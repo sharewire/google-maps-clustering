@@ -48,6 +48,7 @@ public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCamera
      *
      * @param <T> the type of an item managed by {@link ClusterManager}.
      */
+    @Deprecated
     public interface Callbacks<T extends ClusterItem> {
         /**
          * Called when a marker representing a cluster has been clicked.
@@ -68,6 +69,40 @@ public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCamera
          * to move to the marker and an info window to appear.
          */
         boolean onClusterItemClick(@NonNull T clusterItem);
+    }
+
+    /**
+     * Defines a signature for a method that is called when a cluster is clicked.
+     *
+     * @param <T> the type of an item managed by {@link ClusterManager}.
+     */
+    public interface ClusterClickCallback<T extends ClusterItem> {
+        /**
+         * Called when a marker representing a cluster has been clicked.
+         *
+         * @param cluster the cluster that has been clicked
+         * @return <code>true</code> if the listener has consumed the event (i.e., the default behavior should not occur);
+         * <code>false</code> otherwise (i.e., the default behavior should occur). The default behavior is for the camera
+         * to move to the marker and an info window to appear.
+         */
+        boolean onClick(@NonNull Cluster<T> cluster);
+    }
+
+    /**
+     * Defines a signature for a method that is called when a cluster item is clicked.
+     *
+     * @param <T> the type of an item managed by {@link ClusterManager}.
+     */
+    public interface ClusterItemClickCallback<T extends ClusterItem> {
+        /**
+         * Called when a marker representing a cluster item has been clicked.
+         *
+         * @param clusterItem the cluster item that has been clicked
+         * @return <code>true</code> if the listener has consumed the event (i.e., the default behavior should not occur);
+         * <code>false</code> otherwise (i.e., the default behavior should occur). The default behavior is for the camera
+         * to move to the marker and an info window to appear.
+         */
+        boolean onClick(@NonNull T clusterItem);
     }
 
     /**
@@ -100,8 +135,45 @@ public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCamera
      * @param callbacks the callback that's invoked when a cluster or an individual item is clicked.
      *                  To unset the callback, use <code>null</code>.
      */
-    public void setCallbacks(@Nullable Callbacks<T> callbacks) {
-        mRenderer.setCallbacks(callbacks);
+    @Deprecated
+    public void setCallbacks(@Nullable final Callbacks<T> callbacks) {
+        if (callbacks == null) {
+            mRenderer.setClusterClickCallback(null);
+            mRenderer.setClusterItemClickCallback(null);
+        } else {
+            mRenderer.setClusterClickCallback(new ClusterClickCallback<T>() {
+                @Override
+                public boolean onClick(@NonNull Cluster<T> cluster) {
+                    return callbacks.onClusterClick(cluster);
+                }
+            });
+            mRenderer.setClusterItemClickCallback(new ClusterItemClickCallback<T>() {
+                @Override
+                public boolean onClick(@NonNull T clusterItem) {
+                    return callbacks.onClusterItemClick(clusterItem);
+                }
+            });
+        }
+    }
+
+    /**
+     * Sets a callback that's invoked when a cluster is clicked.
+     *
+     * @param callback the callback that's invoked when a cluster is clicked.
+     *                  To unset the callback, use <code>null</code>.
+     */
+    public void setClusterClickCallback(@Nullable ClusterClickCallback<T> callback) {
+        mRenderer.setClusterClickCallback(callback);
+    }
+
+    /**
+     * Sets a callback that's invoked when a cluster item is clicked.
+     *
+     * @param callback the callback that's invoked when an individual item is clicked.
+     *                  To unset the callback, use <code>null</code>.
+     */
+    public void setClusterItemClickCallback(@Nullable ClusterItemClickCallback<T> callback) {
+        mRenderer.setClusterItemClickCallback(callback);
     }
 
     /**

@@ -36,7 +36,8 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
 
     private IconGenerator<T> mIconGenerator;
 
-    private ClusterManager.Callbacks<T> mCallbacks;
+    private ClusterManager.ClusterClickCallback<T> mClusterClickCallback;
+    private ClusterManager.ClusterItemClickCallback<T> mClusterItemClickCallback;
 
     ClusterRenderer(@NonNull Context context, @NonNull GoogleMap googleMap) {
         mGoogleMap = googleMap;
@@ -53,20 +54,22 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
             //noinspection ConstantConditions
             List<T> clusterItems = cluster.getItems();
 
-            if (mCallbacks != null) {
-                if (clusterItems.size() > 1) {
-                    return mCallbacks.onClusterClick(cluster);
-                } else {
-                    return mCallbacks.onClusterItemClick(clusterItems.get(0));
-                }
+            if (clusterItems.size() > 1 && mClusterClickCallback != null) {
+                return mClusterClickCallback.onClick(cluster);
+            } else if (mClusterItemClickCallback != null) {
+                return mClusterItemClickCallback.onClick(clusterItems.get(0));
             }
         }
 
         return false;
     }
 
-    void setCallbacks(@Nullable ClusterManager.Callbacks<T> listener) {
-        mCallbacks = listener;
+    void setClusterClickCallback(@Nullable ClusterManager.ClusterClickCallback<T> listener) {
+        mClusterClickCallback = listener;
+    }
+
+    void setClusterItemClickCallback(@Nullable ClusterManager.ClusterItemClickCallback<T> listener) {
+        mClusterItemClickCallback = listener;
     }
 
     void setIconGenerator(@NonNull IconGenerator<T> iconGenerator) {
