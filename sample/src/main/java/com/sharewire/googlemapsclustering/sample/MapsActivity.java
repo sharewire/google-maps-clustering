@@ -14,6 +14,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 
 import net.sharewire.googlemapsclustering.Cluster;
 import net.sharewire.googlemapsclustering.ClusterManager;
+import net.sharewire.googlemapsclustering.ClusterRenderer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        ClusterManager<SampleClusterItem> clusterManager = new ClusterManager<>(this, googleMap);
+        ClusterRenderer<SampleClusterItem> clusterRenderer = new ClusterRenderer<>(this, googleMap);
+        ClusterManager<SampleClusterItem> clusterManager = new ClusterManager<>(
+                this,
+                googleMap,
+                clusterRenderer
+        );
         clusterManager.setCallbacks(new ClusterManager.Callbacks<SampleClusterItem>() {
             @Override
             public boolean onClusterClick(@NonNull Cluster<SampleClusterItem> cluster) {
