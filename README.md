@@ -19,7 +19,7 @@ repositories {
 2. Add a dependency to your build.gradle:
 ```groovy
 dependencies {
-    compile 'net.sharewire:google-maps-clustering:0.1.2-beta'
+    compile 'net.sharewire:google-maps-clustering:0.1.3'
 }
 ```
 
