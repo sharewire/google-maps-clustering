@@ -233,8 +233,8 @@ public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCamera
         @Override
         protected Void doInBackground(Void... params) {
             mQuadTree.clear();
-            for (T clusterItem : mClusterItems) {
-                mQuadTree.insert(clusterItem);
+            for (int i = 0; i < mClusterItems.size(); i++) {
+                mQuadTree.insert(mClusterItems.get(i));
             }
             return null;
         }
