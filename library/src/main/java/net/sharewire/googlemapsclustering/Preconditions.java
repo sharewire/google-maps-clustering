@@ -4,6 +4,9 @@ import android.support.annotation.Nullable;
 
 final class Preconditions {
 
+    private Preconditions() {
+    }
+
     static <T> T checkNotNull(@Nullable T reference) {
         if (reference == null) {
             throw new NullPointerException();
@@ -15,8 +18,5 @@ final class Preconditions {
         if (!expression) {
             throw new IllegalArgumentException();
         }
-    }
-
-    private Preconditions() {
     }
 }
