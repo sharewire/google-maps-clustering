@@ -57,6 +57,12 @@ class SampleClusterItem implements ClusterItem {
     public String getSnippet() {
         return null;
     }
+    
+    @Nullable
+        @Override
+        public float getColor() {
+            return BitmapDescriptorFactory.HUE_AZURE;
+        }
 }
 ```
 

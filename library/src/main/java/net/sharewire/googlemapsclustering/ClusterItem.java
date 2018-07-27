@@ -37,4 +37,12 @@ public interface ClusterItem extends QuadTreePoint {
      */
     @Nullable
     String getSnippet();
+
+    /**
+     * The color of the item.
+     *
+     * @return the color of the item
+     */
+    @Nullable
+    float getColor();
 }

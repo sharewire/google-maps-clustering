@@ -9,10 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -115,6 +112,7 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
             BitmapDescriptor markerIcon = getMarkerIcon(clusterToAdd);
             String markerTitle = getMarkerTitle(clusterToAdd);
             String markerSnippet = getMarkerSnippet(clusterToAdd);
+            float markerColor = getMarkerColor(clusterToAdd);
 
             Cluster parentCluster = findParentCluster(clustersToRemove, clusterToAdd.getLatitude(),
                     clusterToAdd.getLongitude());
@@ -125,6 +123,9 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
                         .title(markerTitle)
                         .snippet(markerSnippet)
                         .zIndex(FOREGROUND_MARKER_Z_INDEX));
+                if (markerColor != -1) {
+                    markerToAdd.setIcon(BitmapDescriptorFactory.defaultMarker(markerColor));
+                }
                 animateMarkerToLocation(markerToAdd,
                         new LatLng(clusterToAdd.getLatitude(), clusterToAdd.getLongitude()), false);
             } else {
@@ -135,6 +136,9 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
                         .snippet(markerSnippet)
                         .alpha(0.0F)
                         .zIndex(FOREGROUND_MARKER_Z_INDEX));
+                if (markerColor != -1) {
+                    markerToAdd.setIcon(BitmapDescriptorFactory.defaultMarker(markerColor));
+                }
                 animateMarkerAppearance(markerToAdd);
             }
             markerToAdd.setTag(clusterToAdd);
@@ -174,6 +178,16 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
             return null;
         } else {
             return clusterItems.get(0).getSnippet();
+        }
+    }
+
+    @Nullable
+    private float getMarkerColor(@NonNull Cluster<T> cluster) {
+        List<T> clusterItems = cluster.getItems();
+        if (clusterItems.size() > 1) {
+            return -1;
+        } else {
+            return clusterItems.get(0).getColor();
         }
     }
 
