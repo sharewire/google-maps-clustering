@@ -12,7 +12,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
@@ -28,12 +27,9 @@ public class DefaultIconGenerator<T extends ClusterItem> implements IconGenerato
     private static final int[] CLUSTER_ICON_BUCKETS = {10, 20, 50, 100, 500, 1000, 5000, 10000, 20000};
 
     private final Context mContext;
-
-    private IconStyle mIconStyle;
-
-    private BitmapDescriptor mClusterItemIcon;
-
     private final SparseArray<BitmapDescriptor> mClusterIcons = new SparseArray<>();
+    private IconStyle mIconStyle;
+    private BitmapDescriptor mClusterItemIcon;
 
     /**
      * Creates an icon generator with the default icon style.

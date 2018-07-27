@@ -1,7 +1,6 @@
 package net.sharewire.googlemapsclustering;
 
 import android.support.annotation.NonNull;
-
 import com.google.android.gms.maps.model.BitmapDescriptor;
 
 /**
