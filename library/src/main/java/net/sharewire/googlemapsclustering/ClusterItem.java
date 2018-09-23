@@ -1,5 +1,6 @@
 package net.sharewire.googlemapsclustering;
 
+import android.graphics.PointF;
 import android.support.annotation.Nullable;
 
 /**
@@ -37,4 +38,11 @@ public interface ClusterItem extends QuadTreePoint {
      */
     @Nullable
     String getSnippet();
+
+    /**
+     * The anchor of the item.
+     *
+     * @return the anchor of the item
+     */
+    PointF getAnchor();
 }

@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.TypeEvaluator;
 import android.content.Context;
+import android.graphics.PointF;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
@@ -114,6 +115,7 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
             Marker markerToAdd;
 
             BitmapDescriptor markerIcon = getMarkerIcon(clusterToAdd);
+            PointF markerAnchor = getMarkerAnchor(clusterToAdd);
             String markerTitle = getMarkerTitle(clusterToAdd);
             String markerSnippet = getMarkerSnippet(clusterToAdd);
 
@@ -123,6 +125,7 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
                 markerToAdd = mGoogleMap.addMarker(new MarkerOptions()
                         .position(new LatLng(parentCluster.getLatitude(), parentCluster.getLongitude()))
                         .icon(markerIcon)
+                        .anchor(markerAnchor.x, markerAnchor.y)
                         .title(markerTitle)
                         .snippet(markerSnippet)
                         .zIndex(FOREGROUND_MARKER_Z_INDEX));
@@ -132,6 +135,7 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
                 markerToAdd = mGoogleMap.addMarker(new MarkerOptions()
                         .position(new LatLng(clusterToAdd.getLatitude(), clusterToAdd.getLongitude()))
                         .icon(markerIcon)
+                        .anchor(markerAnchor.x, markerAnchor.y)
                         .title(markerTitle)
                         .snippet(markerSnippet)
                         .alpha(0.0F)
@@ -156,6 +160,16 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
         }
 
         return checkNotNull(clusterIcon);
+    }
+
+    @NonNull
+    private PointF getMarkerAnchor(@NonNull Cluster<T> cluster) {
+        List<T> clusterItems = cluster.getItems();
+        if (clusterItems.size() > 1) {
+            return new PointF(0.5f, 0.5f);
+        } else {
+            return clusterItems.get(0).getAnchor();
+        }
     }
 
     @Nullable
