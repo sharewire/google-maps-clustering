@@ -123,6 +123,17 @@ public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCamera
         mMinClusterSize = minClusterSize;
     }
 
+
+    /**
+     * Sets cluster animations enabled if true, disabled otherwise
+     */
+    public void setAnimationEnabled(boolean enabled) {
+        if (mRenderer == null) {
+            return;
+        }
+        mRenderer.setAnimationEnabled(enabled);
+    }
+
     @Override
     public void onCameraIdle() {
         cluster();

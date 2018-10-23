@@ -38,10 +38,16 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
 
     private ClusterManager.Callbacks<T> mCallbacks;
 
+    private boolean animationEnabled = true;
+
     ClusterRenderer(@NonNull Context context, @NonNull GoogleMap googleMap) {
         mGoogleMap = googleMap;
         mGoogleMap.setOnMarkerClickListener(this);
         mIconGenerator = new DefaultIconGenerator<>(context);
+    }
+
+    public void setAnimationEnabled(boolean enabled){
+        animationEnabled = enabled;
     }
 
     @Override
@@ -100,8 +106,12 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
             Cluster<T> parentCluster = findParentCluster(mClusters, clusterToRemove.getLatitude(),
                     clusterToRemove.getLongitude());
             if (parentCluster != null) {
-                animateMarkerToLocation(markerToRemove, new LatLng(parentCluster.getLatitude(),
-                        parentCluster.getLongitude()), true);
+                if(animationEnabled) {
+                    animateMarkerToLocation(markerToRemove, new LatLng(parentCluster.getLatitude(),
+                            parentCluster.getLongitude()), true);
+                }else{
+                    markerToRemove.remove();
+                }
             } else {
                 markerToRemove.remove();
             }
@@ -120,23 +130,37 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
             Cluster parentCluster = findParentCluster(clustersToRemove, clusterToAdd.getLatitude(),
                     clusterToAdd.getLongitude());
             if (parentCluster != null) {
+                LatLng targetLatLng = new LatLng(clusterToAdd.getLatitude(), clusterToAdd.getLongitude());
+                LatLng startLatLng = new LatLng(parentCluster.getLatitude(), parentCluster.getLongitude());
+                if(!animationEnabled){
+                    startLatLng = targetLatLng;
+                }
+
                 markerToAdd = mGoogleMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(parentCluster.getLatitude(), parentCluster.getLongitude()))
+                        .position(startLatLng)
                         .icon(markerIcon)
                         .title(markerTitle)
                         .snippet(markerSnippet)
                         .zIndex(FOREGROUND_MARKER_Z_INDEX));
-                animateMarkerToLocation(markerToAdd,
-                        new LatLng(clusterToAdd.getLatitude(), clusterToAdd.getLongitude()), false);
+                if(animationEnabled) {
+                    animateMarkerToLocation(markerToAdd,
+                            targetLatLng, false);
+                }
             } else {
+                float startAlpha = 0.0f;
+                if(!animationEnabled){
+                    startAlpha = 1f;
+                }
                 markerToAdd = mGoogleMap.addMarker(new MarkerOptions()
                         .position(new LatLng(clusterToAdd.getLatitude(), clusterToAdd.getLongitude()))
                         .icon(markerIcon)
                         .title(markerTitle)
                         .snippet(markerSnippet)
-                        .alpha(0.0F)
+                        .alpha(startAlpha)
                         .zIndex(FOREGROUND_MARKER_Z_INDEX));
-                animateMarkerAppearance(markerToAdd);
+                if(animationEnabled) {
+                    animateMarkerAppearance(markerToAdd);
+                }
             }
             markerToAdd.setTag(clusterToAdd);
 
