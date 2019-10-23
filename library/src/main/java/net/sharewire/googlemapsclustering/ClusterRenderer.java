@@ -16,6 +16,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,7 +77,6 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
     void render(@NonNull List<Cluster<T>> clusters) {
         List<Cluster<T>> clustersToAdd = new ArrayList<>();
         List<Cluster<T>> clustersToRemove = new ArrayList<>();
-        List<Cluster<T>> clustersToUpdate = new ArrayList<>();
 
         for (Cluster<T> cluster : clusters) {
             if (!mMarkers.containsKey(cluster)) {
@@ -84,11 +84,19 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
             }
         }
 
-        for (Cluster<T> cluster : mMarkers.keySet()) {
-            if (!clusters.contains(cluster)) {
-                clustersToRemove.add(cluster);
-            }else{
-                clustersToUpdate.add(cluster);
+        for (Cluster<T> existingCluster : mMarkers.keySet()) {
+            int indexOfExistingCluster = clusters.indexOf(existingCluster);
+            boolean newClustersContainsExistingCluster = indexOfExistingCluster >= 0;
+
+            if (!newClustersContainsExistingCluster) {
+                clustersToRemove.add(existingCluster);
+            } else {
+                Cluster<T> clusterWithNewData = clusters.get(indexOfExistingCluster);
+                boolean itemsAreEqual = existingCluster.getItems().containsAll(clusterWithNewData.getItems());
+                if(!itemsAreEqual) {
+                    clustersToRemove.add(existingCluster);
+                    clustersToAdd.add(clusterWithNewData);
+                }
             }
         }
 
@@ -110,12 +118,6 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
             }
 
             mMarkers.remove(clusterToRemove);
-        }
-
-        //Update clusters
-        for (Cluster<T> clusterToUpdate : clustersToUpdate) {
-            BitmapDescriptor markerIcon = getMarkerIcon(clusterToUpdate);
-            mMarkers.get(clusterToUpdate).setIcon(markerIcon);
         }
 
         // Add the new clusters.
