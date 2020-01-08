@@ -16,6 +16,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,9 +84,19 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
             }
         }
 
-        for (Cluster<T> cluster : mMarkers.keySet()) {
-            if (!clusters.contains(cluster)) {
-                clustersToRemove.add(cluster);
+        for (Cluster<T> existingCluster : mMarkers.keySet()) {
+            int indexOfExistingCluster = clusters.indexOf(existingCluster);
+            boolean newClustersContainsExistingCluster = indexOfExistingCluster >= 0;
+
+            if (!newClustersContainsExistingCluster) {
+                clustersToRemove.add(existingCluster);
+            } else {
+                Cluster<T> clusterWithNewData = clusters.get(indexOfExistingCluster);
+                boolean itemsAreEqual = existingCluster.getItems().containsAll(clusterWithNewData.getItems());
+                if(!itemsAreEqual) {
+                    clustersToRemove.add(existingCluster);
+                    clustersToAdd.add(clusterWithNewData);
+                }
             }
         }
 
